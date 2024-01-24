@@ -11,11 +11,22 @@ class Solution{
   public:
     long long int floorSqrt(long long int x) 
     {
-        int i=1;
-        while(i*i<=x){
-            i++;
+        long long low=1;
+        long long high=x;
+        
+        long long ans=-1;
+        while(low<=high){
+            long long mid = (low+high)/2;
+            long long sq = mid*mid;
+            if(sq==x) return mid;
+            else if( sq > x) high=mid-1;
+            else
+            {
+                low = mid+1;
+                ans = mid;
+            }
         }
-        return i-1;
+        return ans;
     }
 };
 
