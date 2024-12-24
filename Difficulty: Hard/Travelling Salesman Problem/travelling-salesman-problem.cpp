@@ -4,38 +4,32 @@ using namespace std;
 
 
 // } Driver Code Ends
+
 class Solution {
   public:
-    const int INF = INT_MAX;
-    int total_cost(vector<vector<int>>& cost, int start, int mask, vector<vector<int>> &dp){
-        
+    int helper(vector<vector<int>>& cost, int cur, int mask, vector<vector<int>>& dp){
         int n = cost.size();
-        if(mask == (1<<n) - 1)
-          return cost[start][0];
-          
-        if(dp[start][mask] != -1)
-          return dp[start][mask];
-          
-        int ans = INF;
+        if(mask == (1 << n) - 1) return cost[cur][0];
+        if(dp[cur][mask] != -1) return dp[cur][mask];
         
-        for(int nextCity = 0; nextCity<n; nextCity++){
-            if((mask & (1<<nextCity)) == 0){
-                int newMask = mask | (1 << nextCity);
-                ans = min(ans, cost[start][nextCity] + total_cost(cost, nextCity, newMask, dp));
+        int ans = INT_MAX;
+        for(int j = 0; j < n; j++){
+            if((mask & (1 << j)) == 0){
+                int newMask = mask | (1 << j);
+                ans = min(ans, cost[cur][j] + helper(cost, j, newMask, dp));
             }
         }
-        
-        return dp[start][mask] = ans;
-    }
-    int tsp(vector<vector<int>> &cost){
 
+        return dp[cur][mask] = ans;
+    }
+    int tsp(vector<vector<int>>& cost) {
         int n = cost.size();
-        vector<vector<int>> dp(n, vector<int>(1<<n, -1));
-        return total_cost(cost, 0, 1, dp);
+        vector<vector<int>> dp(n, vector<int> (1<<n, -1));
+        return helper(cost, 0, 1, dp);
     }
-
-
 };
+
+
 
 //{ Driver Code Starts.
 int main() {
