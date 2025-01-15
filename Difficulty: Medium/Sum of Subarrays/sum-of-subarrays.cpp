@@ -15,6 +15,8 @@ class Solution {
         for(int i = 0; i < n; i++){
             int el = arr[i];
             ans += ((i+1)*(n-i)*arr[i]);
+            // (n-i) subarrays with starting point as arr[i]
+            // (n-i)*i subarrays with arr[i] not as starting point
             ans %= mod;
         }
         return ans;
