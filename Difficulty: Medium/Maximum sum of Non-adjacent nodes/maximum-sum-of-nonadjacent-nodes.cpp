@@ -102,41 +102,27 @@ struct Node
 */
 
 
-// max sum 
-class Pair{
-public:
-  int inc;
-  int exc;
-};
-
-
 class Solution{
   public:
-    // O(N)
-    Pair maxSum(Node*root){
-        if(root==NULL){
-            Pair p;
-            p.inc = 0;
-            p.exc = 0;
-            return p;
-        }
+    //Function to return the maximum sum of non-adjacent nodes.
+    pair<int,int> post(Node* root){
+        if(root == NULL) return {0,0};
         
-        // rec case 
-        Pair L = maxSum(root->left);
-        Pair R = maxSum(root->right);
+        pair<int,int> l = post(root->left);
+        pair<int,int> r = post(root->right);
         
-        Pair p;
-        p.inc = root->data + L.exc + R.exc;
-        p.exc = max(L.inc,L.exc) + max(R.inc,R.exc);
-        return p;
+        int pick = root->data + l.second + r.second;
+        int notpick = max(l.first,l.second) + max(r.first, r.second);
+        
+        return {pick,notpick};
     }
-    
     int getMaxSum(Node *root) 
     {
-        Pair ans = maxSum(root);
-        return max(ans.inc,ans.exc);
+        pair<int,int> ans = post(root);
+        return max(ans.first,ans.second);
     }
 };
+
 
 //{ Driver Code Starts.
 
